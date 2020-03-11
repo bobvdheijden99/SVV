@@ -91,13 +91,13 @@ boundary[0][0] = 0 - (6 * 10**(-5) * 1/GJ * SD) + d1 * cosin                   #
 
 boundary[1][0] = ((1/EIzz) * 0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
 
-boundary[2][0] = - 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa - 1/(GJ) * SD * -0.0285 * 1000 + (1/EIzz)*(1.508*1000 - sinus * macauley(x3, (1.051 + 0.15))**3 * Pa) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
+boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa) - (1/(GJ) * SD * -0.0285 * 1000) + (1/EIzz)*(1.508*1000 - sinus * macauley(x3, (1.051 + 0.15))**3 * Pa) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
                             
 boundary[3][0] = - d1 * sinus                                 # m, w(x1)
 
 boundary[4][0] = 0                                                           # m, w(x2)
 
-boundary[5][0] = - d3 * sinus - (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
+boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
 
 boundary[6][0] = -6 * EIzz * d3 * sinus + 20600 * np.cos(25/180*np.pi) * (x3 - x2 + 0.5 * xa)**3# m, w(x3)
 
