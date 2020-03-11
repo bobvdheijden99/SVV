@@ -87,9 +87,9 @@ def theta(x):
 boundary = np.zeros((12, 1))
 matrix = np.zeros((12, 12))
 
-boundary[0][0] = 0 - (6 * 10**(-5) * 1/GJ * SD + d1 * cosin)                            # m, deflection hinge 1, v(x1) + theta(x1)
+boundary[0][0] = 0 - (6 * 10**(-5) * 1/GJ * SD) + d1 * cosin                   # m, deflection hinge 1, v(x1) + theta(x1)
 
-boundary[1][0] = (1/EIzz) * 0.0343 * 1000 - (1/GJ) * SD * -0.00452 * 1000                                                               # m, deflection hinge 2, v(x2) + theta(x2)
+boundary[1][0] = ((1/EIzz) * 0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
 
 boundary[2][0] = - 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa - 1/(GJ) * SD * -0.0285 * 1000 + (1/EIzz)*(1.508*1000 - sinus * macauley(x3, (1.051 + 0.15))**3 * Pa) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
                             
@@ -118,8 +118,8 @@ matrix[0][7] = x1
 matrix[0][8] = 1
 matrix[0][11] = 1 * SD
 
-matrix[1][0] = - (1/EIzz) * (v(x2)[0]) + (1/GJ) * theta(x2)[0]
-matrix[1][6] = - (1/EIzz) * (v(x2)[3]) + (1/GJ) * theta(x2)[3]
+matrix[1][0] = (- (1/EIzz) * (v(x2)[0])) + ((1/GJ) * theta(x2)[0])
+matrix[1][6] = (- (1/EIzz) * (v(x2)[3])) + ((1/GJ) * theta(x2)[3])
 matrix[1][7] = x2
 matrix[1][8] = 1
 matrix[1][11] = SD
@@ -196,7 +196,6 @@ def workingv(x, inte):
                         + Pj * sinus * macauley(x, (x2 - 0.5 * xa))**3) \
                         - 1/EIzz * inte \
                         + C1 * x + C2
-    print(theta)
     return v/cosin
 
 def workingw(x):
