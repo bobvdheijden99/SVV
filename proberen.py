@@ -134,7 +134,7 @@ boundary[9][0] = - Pa * (0.5*Ha*cosin - SC*sinus) - 1036                        
 
 boundary[10][0] = -Pa * sinus - 2766                                                # Nm, Sy
 
-boundary[11][0] = 0.5 * Ha * (Pa * cosin * ( la -x2 - 0.5 * xa) - 0.7)              # Nm, Sz
+boundary[11][0] = - Pa * cosin              # Nm, Sz
 
 
 # -------------------- The Matrix -----------------------
@@ -190,8 +190,7 @@ matrix[9][6] = mx(la)[3]
 matrix[10][0:3] = sy(la)[0:3]
 matrix[10][6] = sy(la)[3]
 
-matrix[11][6] = cosin * (la - x2 - 0.5 * xa) * Ha
-matrix[11][11] = 1
+matrix[11][3:7] = sz(la)
 
 forces = lin.inv(matrix).dot(boundary)
 
@@ -244,7 +243,7 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, z)
+plt.plot(x_list, y)
 plt.show()
 
 print(forces[0] + forces[1] + forces[2])
