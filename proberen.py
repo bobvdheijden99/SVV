@@ -130,9 +130,9 @@ boundary[7][0] = - Pa * (x2 - 0.15) * cosin                                    #
 
 boundary[8][0] = Pa * sinus * (x2-0.15) - 3748.8 #- 1036                             # Nm, Mz
 
-boundary[9][0] = - Pa * (0.5*Ha*cosin - SC*sinus) - 1036                    # Nm, Mx
+boundary[9][0] = - Pa * (0.5*Ha*cosin - SC*sinus) - 1036                            # Nm, Mx
 
-boundary[10][0] = 20600 * (x2 - 0.5*xa) * np.cos(25/180*np.pi)  - 3748.8            # Nm, Sy
+boundary[10][0] = -Pa * sinus - 2766                                                # Nm, Sy
 
 boundary[11][0] = 0.5 * Ha * (Pa * cosin * ( la -x2 - 0.5 * xa) - 0.7)              # Nm, Sz
 
@@ -187,8 +187,8 @@ matrix[8][6] = mz(la)[3]
 matrix[9][0:3] = mx(la)[0:3] 
 matrix[9][6] = mx(la)[3]
 
-matrix[10][0:3] = [-x1, -x2, -x3]
-matrix[10][6] = (x2 + 0.5*xa) * np.sin(25/180*np.pi)
+matrix[10][0:3] = sy(la)[0:3]
+matrix[10][6] = sy(la)[3]
 
 matrix[11][6] = cosin * (la - x2 - 0.5 * xa) * Ha
 matrix[11][11] = 1
