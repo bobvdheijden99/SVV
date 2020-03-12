@@ -100,6 +100,13 @@ def theta(x):
     Pj =  - (0.5 * Ha * cosin - SC * sinus) * macauley(x, (1.051 - 0.15))
     return R1y, R2y, R3y, Pj, 1
 
+def mx(x):
+    R1y = SD * macauley(x, (0.174))**0
+    R2y = SD * macauley(x, (1.051))**0
+    R3y = SD * macauley(x, (2.512))**0
+    Pj =  - (0.5 * Ha * cosin - SC * sinus) * macauley(x, (1.051 - 0.15))**0
+    return R1y, R2y, R3y, Pj
+
 
 # -------------------- Boundary conditions -----------------
 boundary = np.zeros((12, 1))
@@ -119,11 +126,11 @@ boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**
 
 boundary[6][0] = ((1/EIzz) * 0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000)    # m, Pj
 
-boundary[7][0] = - 20600 * (x2 - 0.5*xa) * cosin  - 3748.8                        # Nm, My
+boundary[7][0] = - Pa * (x2 - 0.15) * cosin                                    # Nm, My
 
-boundary[8][0] = Pa * sinus - 1036                                                  # Nm, Mz
+boundary[8][0] = Pa * sinus * (x2-0.15) - 3748.8 #- 1036                             # Nm, Mz
 
-boundary[9][0] = - 20600 * np.cos(25/180*np.pi) * (x2 - 0.5*xa)                     # Nm, Mx
+boundary[9][0] = - Pa * (0.5*Ha*cosin - SC*sinus) - 1036                    # Nm, Mx
 
 boundary[10][0] = 20600 * (x2 - 0.5*xa) * np.cos(25/180*np.pi)  - 3748.8            # Nm, Sy
 
@@ -174,13 +181,11 @@ matrix[6][11] = ((SC * sinus) + (0.5 * Ha * cosin))
 
 matrix[7][3:7] = my(la)
 
-matrix[8][0:3] = [-1, -1, -1]
-matrix[8][6] = sinus
+matrix[8][0:3] = mz(la)[0:3]
+matrix[8][6] = mz(la)[3]
 
-matrix[9][0] = -x1
-matrix[9][1] = -x2
-matrix[9][2] = -x3
-matrix[9][6] = -(x2 + 0.5*xa)*np.cos(25/180*np.pi)
+matrix[9][0:3] = mx(la)[0:3] 
+matrix[9][6] = mx(la)[3]
 
 matrix[10][0:3] = [-x1, -x2, -x3]
 matrix[10][6] = (x2 + 0.5*xa) * np.sin(25/180*np.pi)
@@ -239,7 +244,7 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, y)
+plt.plot(x_list, z)
 plt.show()
 
 print(forces[0] + forces[1] + forces[2])
