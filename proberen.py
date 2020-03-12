@@ -45,6 +45,24 @@ def my(x):
     
     return R1z, R2z, R3z, Pj
 
+def sz(x):
+    
+    R1z = -macauley(x, 0.174)**0
+    R2z = -macauley(x, 1.051)**0
+    R3z = -macauley(x, 2.512)**0
+    Pj =  cosin * macauley(x, (1.051 - 0.15))**0
+    
+    return R1z, R2z, R3z, Pj
+
+def sy(x):
+    
+    R1y = -macauley(x, 0.174)**0
+    R2y = -macauley(x, 1.051)**0
+    R3y = -macauley(x, 2.512)**0
+    Pj =  sinus * macauley(x, (1.051 - 0.15))**0
+    
+    return R1y, R2y, R3y, Pj
+
 def v_acc(x):
     R1y = -macauley(x, 0.174)**2 / 3
     R2y = -macauley(x, 1.051)**2 / 3
@@ -95,13 +113,13 @@ boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.0
                             
 boundary[3][0] = - d1 * sinus                                 # m, w(x1)
 
-boundary[4][0] = 0                                                           # m, w(x2)
+boundary[4][0] = 0                                                          # m, w(x2)
 
 boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
 
 boundary[6][0] = ((1/EIzz) * 0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000)    # m, Pj
 
-boundary[7][0] = - Pa*cosin                                                         # Nm, My
+boundary[7][0] = - 20600 * (x2 - 0.5*xa) * cosin  - 3748.8                        # Nm, My
 
 boundary[8][0] = Pa * sinus - 1036                                                  # Nm, Mz
 
@@ -154,7 +172,7 @@ matrix[6][9] = x2 - 0.15
 matrix[6][10] = 1
 matrix[6][11] = ((SC * sinus) + (0.5 * Ha * cosin))
 
-matrix[7][3:7] = [-1, -1, -1, -cosin]
+matrix[7][3:7] = my(la)
 
 matrix[8][0:3] = [-1, -1, -1]
 matrix[8][6] = sinus
@@ -221,7 +239,7 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, z)
+plt.plot(x_list, y)
 plt.show()
 
 print(forces[0] + forces[1] + forces[2])
