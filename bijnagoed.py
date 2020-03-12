@@ -99,7 +99,7 @@ boundary[4][0] = 0                                                           # m
 
 boundary[5][0] = - d3 * sinus - (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
 
-boundary[6][0] = (1/EIzz) * 0.0343 * 1000 * sinus - (1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000 # m, w(Pj)
+boundary[6][0] = ((1/EIzz) * 0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000) # m, w(Pj)
 
 boundary[7][0] = -Pa * cosin                                                          # N, Sz(la) = 0
 

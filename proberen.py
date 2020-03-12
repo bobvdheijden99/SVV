@@ -99,17 +99,17 @@ boundary[4][0] = 0                                                           # m
 
 boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
 
-boundary[6][0] = -6 * EIzz * d3 * sinus + 20600 * np.cos(25/180*np.pi) * (x3 - x2 + 0.5 * xa)**3# m, w(x3)
+boundary[6][0] = ((1/EIzz) * 0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000)    # m, Pj
 
-boundary[7][0] = -Pa*cosin                                                          # N, Sz
+boundary[7][0] = - Pa*cosin                                                         # Nm, My
 
-boundary[8][0] = Pa * sinus - 1036                                                  # N, Sy
+boundary[8][0] = Pa * sinus - 1036                                                  # Nm, Mz
 
-boundary[9][0] = - 20600 * np.cos(25/180*np.pi) * (x2 - 0.5*xa)                     # My
+boundary[9][0] = - 20600 * np.cos(25/180*np.pi) * (x2 - 0.5*xa)                     # Nm, Mx
 
-boundary[10][0] = 20600 * (x2 - 0.5*xa) * np.cos(25/180*np.pi)  - 3748.8            # Nm, Mz
+boundary[10][0] = 20600 * (x2 - 0.5*xa) * np.cos(25/180*np.pi)  - 3748.8            # Nm, Sy
 
-boundary[11][0] = 0.5 * Ha * (Pa * cosin * ( la -x2 - 0.5 * xa) - 0.7)              # Nm, theta
+boundary[11][0] = 0.5 * Ha * (Pa * cosin * ( la -x2 - 0.5 * xa) - 0.7)              # Nm, Sz
 
 
 # -------------------- The Matrix -----------------------
@@ -145,11 +145,14 @@ matrix[5][6] = - (1/EIzz) * (w(x3)[4])
 matrix[5][9] = x3
 matrix[5][10] = 1
 
-matrix[6][3] = -(x3-x1)**3
-matrix[6][4] = -(x3-x2)**3
+matrix[6][0] = ((- (1/EIzz) * (v(x2 - 0.15)[0]))*(sinus)) + ((1/GJ) * theta(x2 - 0.15)[0] * (((SC * sinus) + (0.5 * Ha * cosin))))
+matrix[6][3] = - (1/EIzz) * (w(x2-0.15)[0])
 matrix[6][6] = - np.cos(25/180*np.pi) * (x3 - x2 - 0.5 * xa)**3
-matrix[6][9] = x3 * -6 * EIyy
-matrix[6][10] = -6 * EIyy
+matrix[6][7] = (x2 - 0.15)*sinus
+matrix[6][8] = sinus
+matrix[6][9] = x2 - 0.15
+matrix[6][10] = 1
+matrix[6][11] = ((SC * sinus) + (0.5 * Ha * cosin))
 
 matrix[7][3:7] = [-1, -1, -1, -cosin]
 
@@ -218,7 +221,7 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, y)
+plt.plot(x_list, z)
 plt.show()
 
-print(forces[3] + forces[4] + forces[5])
+print(forces[0] + forces[1] + forces[2])
