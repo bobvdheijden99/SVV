@@ -29,20 +29,20 @@ def macauley(x, door):
     
 def my_right(x = la):
 
-    Pa_coeff = (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    Pa_coeff = + (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
         
-    return Pa*Pa_coeff
+    return Pa_coeff*Pa
 
 def w_right(x):
 
-    Pa_coeff = (1/6) * cosin * macauley(x,(x2+0.5*Ha)) ** 3
+    Pa_coeff = + (1/6) * cosin * macauley(x,(x2+0.5*Ha)) ** 3
         
-    return Pa*Pa_coeff
+    return Pa_coeff*Pa
 
 def my_left(x = la):
 
     R1z = - (1/1) * macauley(x,x1)          ** 1
-    Pj  =   (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    Pj  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
     R2z = - (1/1) * macauley(x,x2)          ** 1
     R3z = - (1/1) * macauley(x,x3)          ** 1
         
@@ -52,11 +52,18 @@ def my_left(x = la):
 def w_left(x):
 
     R1z = - (1/6) * macauley(x,x1)          ** 3
-    Pj  =   (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
+    Pj  = + (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
     R2z = - (1/6) * macauley(x,x2)          ** 3
     R3z = - (1/6) * macauley(x,x3)          ** 3
         
     return R1z, R2z, R3z, Pj
+
+def mz_right(x = la):
+    
+    Pa_coeff = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    q_coeff  = - (1/1)
+    
+    return Pa_coeff*Pa, q_coeff
 
             
             
