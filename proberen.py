@@ -3,8 +3,8 @@ from integration import int_w
 from numpy import linalg as lin
 from matplotlib import pyplot as plt
 
-EIzz = -73.1*10**9 * 1.42546*10**(-5)
-EIyy = -73.1*10**9 * 5.377416*10**(-5)
+EIzz = 73.1*10**9 * 1.42546*10**(-5)
+EIyy = 73.1*10**9 * 5.377416*10**(-5)
 GJ = 28*10**9 * 1.91*10**(-5)
 x1 = 0.174
 x2 = 1.051
@@ -32,7 +32,7 @@ def mz(x):
     R1y = -macauley(x, 0.174)
     R2y = -macauley(x, 1.051)
     R3y = -macauley(x, 2.512)
-    Pj =  sinus * macauley(x, (1.051 - 0.15))
+    Pj =  -sinus * macauley(x, (1.051 - 0.15))
     
     return R1y, R2y, R3y, Pj
 
@@ -59,7 +59,7 @@ def sy(x):
     R1y = -macauley(x, 0.174)**0
     R2y = -macauley(x, 1.051)**0
     R3y = -macauley(x, 2.512)**0
-    Pj =  sinus * macauley(x, (1.051 - 0.15))**0
+    Pj =  -sinus * macauley(x, (1.051 - 0.15))**0
     
     return R1y, R2y, R3y, Pj
 
@@ -67,14 +67,14 @@ def v_acc(x):
     R1y = -macauley(x, 0.174)**2 / 3
     R2y = -macauley(x, 1.051)**2 / 3
     R3y = -macauley(x, 2.512)**2 / 3
-    Pj =  sinus * macauley(x, (1.051 - 0.15))    ** 2 / 3
+    Pj =  -sinus * macauley(x, (1.051 - 0.15))    ** 2 / 3
     return R1y, R2y, R3y, Pj, 1             # 1 is for C1
 
 def v(x):
-    R1y = - macauley(x, 0.174)                                  ** 3 / 6
-    R2y = - macauley(x, 1.051)                                  ** 3 / 6
-    R3y = - macauley(x, 2.512)                                  ** 3 / 6
-    Pj =  sinus * macauley(x, (1.051 - 0.15))    ** 3 / 6
+    R1y = -1/6 * macauley(x, 0.174)**3 
+    R2y = -1/6 * macauley(x, 1.051)**3
+    R3y = -1/6 * macauley(x, 2.512)**3
+    Pj =  -sinus * macauley(x, (1.051 - 0.15))    ** 3 / 6
     C1 = x
     return R1y, R2y, R3y, Pj, C1, 1         # 1 is for C2
 
@@ -175,8 +175,8 @@ matrix[6][3] = - (1/EIzz) * (w(x2-0.15)[0])
 matrix[6][6] = - np.cos(25/180*np.pi) * (x3 - x2 - 0.5 * xa)**3
 matrix[6][7] = (x2 - 0.15)*sinus
 matrix[6][8] = sinus
-matrix[6][9] = x2 - 0.15
-matrix[6][10] = 1
+matrix[6][9] = (x2 - 0.15)*cosin
+matrix[6][10] = cosin
 matrix[6][11] = ((SC * sinus) + (0.5 * Ha * cosin))
 
 matrix[7][3:7] = my(la)
@@ -209,19 +209,19 @@ C5 = forces[11][0]
 
 def workingv(x, inte):
 
-    theta = 1/GJ * (-R1y * macauley(x, x1) - R2y * macauley(x, x2) - R3y * macauley(x, x3)) * SD + \
-                        1/GJ * ( -Pj * macauley(x, (x2 - 0.5 * xa)) * cosin * 0.5 * Ha \
-                        + Pa * macauley(x, (x2 + 0.5 * xa)) * cosin * 0.5 * Ha \
-                        + Pj * macauley(x, (x2 - 0.5 * xa)) * sinus * SC\
-                        - Pa * macauley(x, (x2 + 0.5 * xa)) * sinus * SC + 36) + C5 * SD
+    # theta = 1/GJ * (-R1y * macauley(x, x1) - R2y * macauley(x, x2) - R3y * macauley(x, x3)) * SD + \
+    #                     1/GJ * ( -Pj * macauley(x, (x2 - 0.5 * xa)) * cosin * 0.5 * Ha \
+    #                     + Pa * macauley(x, (x2 + 0.5 * xa)) * cosin * 0.5 * Ha \
+    #                     + Pj * macauley(x, (x2 - 0.5 * xa)) * sinus * SC\
+    #                     - Pa * macauley(x, (x2 + 0.5 * xa)) * sinus * SC + 36) + C5 * SD
 
 
-    v = (1/(6*EIzz)) * (R1y * macauley(x, x1)**3 - R2y * macauley(x, x2)**3 - R3y * macauley(x, x3)**3 \
-                        + Pa * sinus * macauley(x, (x2 + 0.5 * xa))**3 \
-                        + Pj * sinus * macauley(x, (x2 - 0.5 * xa))**3) \
+    v = (-1/(EIzz)) * (-R1y/6 * macauley(x, x1)**3 - R2y/6 * macauley(x, x2)**3 - R3y/6 * macauley(x, x3)**3 \
+                        - Pa/6 * sinus * macauley(x, (x2 + 0.5 * xa))**3 \
+                        + Pj/6 * sinus * macauley(x, (x2 - 0.5 * xa))**3) \
                         - 1/EIzz * inte \
                         + C1 * x + C2
-    return v/cosin
+    return v
 
 def workingw(x):
     w = (-1/EIzz) * (-forces[3][0]/6 * macauley(x, x1)**3 - forces[4][0]/6 * macauley(x, x2)**3 - forces[5][0]/6 * macauley(x, x3)**3 \
