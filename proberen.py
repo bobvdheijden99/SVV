@@ -126,7 +126,7 @@ def sy_left(x = la):
 def mz_left(x = la):
     
     R1y = - (1/1) * macauley(x,x1)          ** 1
-    Pj  = - (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    Pj  = - (1/1) * sinus * macauley(x,x2 - 0.5*Ha) ** 1
     R2y = - (1/1) * macauley(x,x2)          ** 1
     R3y = - (1/1) * macauley(x,x3)          ** 1
     
@@ -135,7 +135,7 @@ def mz_left(x = la):
 def v_left(x):
     
     R1y = - (1/6) * macauley(x,x1)          ** 3
-    Pj  = - (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
+    Pj  = - (1/6) * sinus * macauley(x,x2 - 0.5*Ha) ** 3
     R2y = - (1/6) * macauley(x,x2)          ** 3
     R3y = - (1/6) * macauley(x,x3)          ** 3
     C1  = x
@@ -145,7 +145,7 @@ def v_left(x):
 
 def mx_right(x = la):
     
-    Pa_coeff = - SD * (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 0
+    Pa_coeff = - SD * (1/1) * (0.5 * Ha * cosin - SC * sinus) * macauley(x,(x2+0.5*Ha)) ** 0
     
     tau = 30
     
@@ -153,7 +153,7 @@ def mx_right(x = la):
 
 def theta_right(x):
     
-    Pa_coeff = - SD * (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    Pa_coeff = - (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,(x2+0.5*Ha)) ** 1
     
     if   x == x1:
         
@@ -178,7 +178,7 @@ def theta_right(x):
 def mx_left(x = la):
     
     R1y = + SD * (1/1) * macauley(x,x1)          ** 0
-    Pj  = + (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
+    Pj  = - (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
     R2y = + SD * (1/1) * macauley(x,x2)          ** 0
     R3y = + SD * (1/1) * macauley(x,x3)          ** 0
     
@@ -187,7 +187,7 @@ def mx_left(x = la):
 def theta_left(x):
     
     R1y = + SD * (1/1) * macauley(x,x1)          ** 1
-    Pj  = + (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    Pj  = - (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
     R2y = + SD * (1/1) * macauley(x,x2)          ** 1
     R3y = + SD * (1/1) * macauley(x,x3)          ** 1
     C5  = 1
