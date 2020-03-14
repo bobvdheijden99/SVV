@@ -112,7 +112,7 @@ def v_right(x):
         
     #- q at the return means q is pointing up (now it is down)
     
-    return Pa_coeff*Pa, q
+    return Pa_coeff * Pa, q
 
 def sy_left(x = la):
     
