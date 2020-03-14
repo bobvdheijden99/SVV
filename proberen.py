@@ -114,9 +114,9 @@ matrix = np.zeros((12, 12))
 
 boundary[0][0] = 0 - (6 * 10**(-5) * 1/GJ * SD) + d1 * cosin                   # m, deflection hinge 1, v(x1) + theta(x1)
 
-boundary[1][0] = ((1/EIzz) * 0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
+boundary[1][0] = ((1/EIzz) * -0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
 
-boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa) - (1/(GJ) * SD * -0.0285 * 1000) + (1/EIzz)*(1.508*1000 - sinus * macauley(x3, (1.051 + 0.15))**3 * Pa) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
+boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa) - (1/(GJ) * SD * -0.0285 * 1000) + (1/EIzz)*(-1.508*1000 - sinus * macauley(x3, (1.051 + 0.15))**3 * Pa) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
                             
 boundary[3][0] = - d1 * sinus                                 # m, w(x1)
 
@@ -124,7 +124,7 @@ boundary[4][0] = 0                                                          # m,
 
 boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
 
-boundary[6][0] = ((1/EIzz) * 0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000)    # m, Pj
+boundary[6][0] = ((1/EIzz) * -0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000)    # m, Pj
 
 boundary[7][0] = - Pa * (x2 - 0.15) * cosin                                    # Nm, My
 
@@ -132,9 +132,9 @@ boundary[8][0] = Pa * sinus * (x2-0.15) - 3748.8 #- 1036                        
 
 boundary[9][0] = - Pa * (0.5*Ha*cosin - SC*sinus) - 1036                            # Nm, Mx
 
-boundary[10][0] = -Pa * sinus - 2766                                                # Nm, Sy
+boundary[10][0] = -Pa * sinus + 2766                                                # Nm, Sy
 
-boundary[11][0] = - Pa * cosin              # Nm, Sz
+boundary[11][0] = Pa * cosin              # Nm, Sz
 
 
 # -------------------- The Matrix -----------------------
@@ -207,6 +207,7 @@ C3 = forces[9][0]
 C4 = forces[10][0]
 C5 = forces[11][0]
 
+
 def workingv(x, inte):
 
     # theta = 1/GJ * (-R1y * macauley(x, x1) - R2y * macauley(x, x2) - R3y * macauley(x, x3)) * SD + \
@@ -217,8 +218,8 @@ def workingv(x, inte):
 
 
     v = (-1/(EIzz)) * (-R1y/6 * macauley(x, x1)**3 - R2y/6 * macauley(x, x2)**3 - R3y/6 * macauley(x, x3)**3 \
-                        - Pa/6 * sinus * macauley(x, (x2 + 0.5 * xa))**3 \
-                        + Pj/6 * sinus * macauley(x, (x2 - 0.5 * xa))**3) \
+                        + Pa/6 * sinus * macauley(x, (x2 + 0.5 * xa))**3 \
+                        - Pj/6 * sinus * macauley(x, (x2 - 0.5 * xa))**3) \
                         - 1/EIzz * inte \
                         + C1 * x + C2
     return v
@@ -236,7 +237,7 @@ x_list = int_w(4)[1]
 y = []
 z = []
 
-print(workingv(x1, 0), workingv(x2, 34), workingv(x3, 1502.35))
+#print(workingv(x1, 0), workingv(x2, 34), workingv(x3, 1502.35))
 for i in range(0, len(integrated)):
     y.append(workingv(x_list[i], integrated[i]))
 
@@ -246,4 +247,4 @@ for i in range(0, len(integrated)):
 plt.plot(x_list, y)
 plt.show()
 
-print(forces[0] + forces[1] + forces[2])
+print(forces[0] + forces[1] + forces[2] - Pa*sinus + Pj*sinus, "Sum Fy")
