@@ -1,7 +1,8 @@
 import numpy as np
 from integration import int_w
-from numpy import linalg as lin
+from scipy import linalg as lin
 from matplotlib import pyplot as plt
+import scipy.io
 
 EIzz = 73.1*10**9 * 1.42546*10**(-5)
 EIyy = 73.1*10**9 * 5.377416*10**(-5)
@@ -286,7 +287,7 @@ matrix[10][6]   = sy_left()[3]
 
 matrix[11][3:7] = sz_left()
 
-forces = lin.inv(matrix).dot(boundary)
+forces = lin.lstsq(matrix,boundary)[0]
 
 R1y = forces[0][0]
 R2y = forces[1][0]
@@ -301,13 +302,13 @@ C3 = forces[9][0]
 C4 = forces[10][0]
 C5 = forces[11][0]
 
-def sz(x = la):
+def mz(x = la):
 
-    R1z_coeff = - (1/1) * macauley(x,x1)          ** 0
-    Pj_coeff  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
-    R2z_coeff = - (1/1) * macauley(x,x2)          ** 0
-    R3z_coeff = - (1/1) * macauley(x,x3)          ** 0
-    Pa_coeff  = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 0
+    R1z_coeff = - (1/1) * macauley(x,x1)          ** 1
+    Pj_coeff  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    R2z_coeff = - (1/1) * macauley(x,x2)          ** 1
+    R3z_coeff = - (1/1) * macauley(x,x3)          ** 1
+    Pa_coeff  = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
         
     return R1z_coeff*R1z + R2z_coeff*R2z + R3z_coeff*R3z + Pj_coeff*Pj + Pa_coeff*Pa
 
@@ -342,8 +343,8 @@ def workingv(x, inte):
 
 def workingw(x):
     w = (-1/EIzz) * (-forces[3][0]/6 * macauley(x, x1)**3 - forces[4][0]/6 * macauley(x, x2)**3 - forces[5][0]/6 * macauley(x, x3)**3 \
-                     + Pa / 6 * np.cos(25 / 180 * np.pi) * macauley(x, (x2 - 0.5 * xa))**3 - \
-                     forces[6][0] / 6 * np.cos(25 / 180 * np.pi) * macauley(x, (x2 + 0.5 * xa))**3) \
+                     - Pa / 6 * cosin * macauley(x, (x2 + 0.5 * xa))**3 + \
+                     forces[6][0] / 6 * cosin * macauley(x, (x2 - 0.5 * xa))**3) \
                     + forces[9][0] * x + forces[10][0]
 
     return w
@@ -360,7 +361,7 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, y)
+plt.plot(x_list, z)
 plt.show()
 
 print(forces[0] + forces[1] + forces[2] - Pa*sinus + Pj*sinus, "Sum Fy")
