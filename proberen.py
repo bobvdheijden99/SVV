@@ -1,5 +1,5 @@
 import numpy as np
-from integration import int_w
+from integration import int_w, int_tau
 from numpy import linalg as lin
 from matplotlib import pyplot as plt
 import scipy.io
@@ -79,14 +79,14 @@ def w_left(x):
 def sy_right(x = la):
     
     Pa_coeff = - (1/1) * sinus * macauley(x,(x2+0.5*Ha)) ** 0
-    q  = - 3179 #q pointing down! 3rd int
+    q  = - 2765.7 #q pointing down! 1st int
     
     return Pa_coeff*Pa, q
 
 def mz_right(x = la):
     
     Pa_coeff = - (1/1) * sinus * macauley(x,(x2+0.5*Ha)) ** 1
-    q  = - 3748.8 #q pointing down! 4th int
+    q  = - 3748.8 #q pointing down! 2nd int
     
     return Pa_coeff*Pa, q
 
@@ -100,15 +100,15 @@ def v_right(x):
         
     elif x == (x2 - 0.5*Ha):
         
-        q = - 17
+        q = - 19.69
         
     elif x == x2:
         
-        q = - 34 
+        q = - 34.3 
         
     elif x == x3:
         
-        q = - 1502.35
+        q = - 2014
         
     #- q at the return means q is pointing up (now it is down)
     
@@ -147,9 +147,9 @@ def mx_right(x = la):
     
     Pa_coeff = - SD * (1/1) * (0.5 * Ha * cosin - SC * sinus) * macauley(x,(x2+0.5*Ha)) ** 0
     
-    tau = 30
+    tau = -30
     
-    return Pa_coeff*Pa, tau
+    return Pa_coeff*Pa, -tau
 
 def theta_right(x):
     
@@ -311,13 +311,13 @@ C5 = forces[11][0]
 
 def mz(x = la):
 
-    R1z_coeff = - (1/1) * macauley(x,x1)          ** 1
-    Pj_coeff  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
-    R2z_coeff = - (1/1) * macauley(x,x2)          ** 1
-    R3z_coeff = - (1/1) * macauley(x,x3)          ** 1
-    Pa_coeff  = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    R1y_coeff = - (1/6) * macauley(x,x1)          ** 3
+    Pj_coeff  = - (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
+    R2y_coeff = - (1/6) * macauley(x,x2)          ** 3
+    R3y_coeff = - (1/6) * macauley(x,x3)          ** 3
+    Pa_coeff  = + (1/6) * sinus * macauley(x,(x2+0.5*Ha)) ** 3
         
-    return R1z_coeff*R1z + R2z_coeff*R2z + R3z_coeff*R3z + Pj_coeff*Pj + Pa_coeff*Pa
+    return R1y_coeff*R1y + R2y_coeff*R2y + R3y_coeff*R3y + Pj_coeff*Pj + Pa_coeff*Pa
 
 def sy(x = la):
 
@@ -330,16 +330,15 @@ def sy(x = la):
     return R1_coeff*R1y + R2_coeff*R2y + R3_coeff*R3y + Pj_coeff*Pj + Pa_coeff*Pa 
 
 
-
+# def workingtheta(x,inte):
+    
+#         theta = 1/GJ * (R1y * macauley(x, x1) + R2y * macauley(x, x2) + R3y * macauley(x, x3)) * SD + \
+#                         1/GJ * ( -Pj * macauley(x, (x2 - 0.5 * xa)) * (0.5 * Ha * cosin - SC * sinus) \
+#                         + Pa * macauley(x, (x2 + 0.5 * xa)) * (0.5 * Ha * cosin - SC * sinus) + inte) + C5
+                            
+#         return theta
 
 def workingv(x, inte):
-
-    # theta = 1/GJ * (-R1y * macauley(x, x1) - R2y * macauley(x, x2) - R3y * macauley(x, x3)) * SD + \
-    #                     1/GJ * ( -Pj * macauley(x, (x2 - 0.5 * xa)) * cosin * 0.5 * Ha \
-    #                     + Pa * macauley(x, (x2 + 0.5 * xa)) * cosin * 0.5 * Ha \
-    #                     + Pj * macauley(x, (x2 - 0.5 * xa)) * sinus * SC\
-    #                     - Pa * macauley(x, (x2 + 0.5 * xa)) * sinus * SC + 36) + C5 * SD
-
 
     v = (-1/(EIzz)) * (-R1y/6 * macauley(x, x1)**3 - R2y/6 * macauley(x, x2)**3 - R3y/6 * macauley(x, x3)**3 \
                         + Pa/6 * sinus * macauley(x, (x2 + 0.5 * xa))**3 \
@@ -360,10 +359,14 @@ integrated = int_w(4)[0]
 x_list = int_w(4)[1]
 y = []
 z = []
+theta = []
 
 #print(workingv(x1, 0), workingv(x2, 34), workingv(x3, 1502.35))
 for i in range(0, len(integrated)):
     y.append(workingv(x_list[i], integrated[i]))
+    
+# for i in range(0, len(integrated)):
+#     theta.append(workingtheta(x_list[i], integrated[i]))
 
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
