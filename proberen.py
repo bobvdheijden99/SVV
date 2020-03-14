@@ -27,85 +27,42 @@ def macauley(x, door):
     else:
         return 0
     
-def mz(x):
-    
-    R1y = -macauley(x, 0.174)
-    R2y = -macauley(x, 1.051)
-    R3y = -macauley(x, 2.512)
-    Pj =  -sinus * macauley(x, (1.051 - 0.15))
-    
-    return R1y, R2y, R3y, Pj
+def my_right(x = la):
 
-def my(x):
-    
-    R1z = -macauley(x, 0.174)
-    R2z = -macauley(x, 1.051)
-    R3z = -macauley(x, 2.512)
-    Pj =  cosin * macauley(x, (1.051 - 0.15))
-    
+    Pa_coeff = (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+        
+    return Pa*Pa_coeff
+
+def w_right(x):
+
+    Pa_coeff = (1/6) * cosin * macauley(x,(x2+0.5*Ha)) ** 3
+        
+    return Pa*Pa_coeff
+
+def my_left(x = la):
+
+    R1z = - (1/1) * macauley(x,x1)          ** 1
+    Pj  =   (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    R2z = - (1/1) * macauley(x,x2)          ** 1
+    R3z = - (1/1) * macauley(x,x3)          ** 1
+        
     return R1z, R2z, R3z, Pj
 
-def sz(x):
-    
-    R1z = -macauley(x, 0.174)**0
-    R2z = -macauley(x, 1.051)**0
-    R3z = -macauley(x, 2.512)**0
-    Pj =  cosin * macauley(x, (1.051 - 0.15))**0
-    
+
+def w_left(x):
+
+    R1z = - (1/6) * macauley(x,x1)          ** 3
+    Pj  =   (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
+    R2z = - (1/6) * macauley(x,x2)          ** 3
+    R3z = - (1/6) * macauley(x,x3)          ** 3
+        
     return R1z, R2z, R3z, Pj
 
-def sy(x):
+            
+            
+        
+
     
-    R1y = -macauley(x, 0.174)**0
-    R2y = -macauley(x, 1.051)**0
-    R3y = -macauley(x, 2.512)**0
-    Pj =  -sinus * macauley(x, (1.051 - 0.15))**0
-    
-    return R1y, R2y, R3y, Pj
-
-def v_acc(x):
-    R1y = -macauley(x, 0.174)**2 / 3
-    R2y = -macauley(x, 1.051)**2 / 3
-    R3y = -macauley(x, 2.512)**2 / 3
-    Pj =  -sinus * macauley(x, (1.051 - 0.15))    ** 2 / 3
-    return R1y, R2y, R3y, Pj, 1             # 1 is for C1
-
-def v(x):
-    R1y = -1/6 * macauley(x, 0.174)**3 
-    R2y = -1/6 * macauley(x, 1.051)**3
-    R3y = -1/6 * macauley(x, 2.512)**3
-    Pj =  -sinus * macauley(x, (1.051 - 0.15))    ** 3 / 6
-    C1 = x
-    return R1y, R2y, R3y, Pj, C1, 1         # 1 is for C2
-
-def w(x):
-    R1z = - macauley(x,0.174)                                           **3 / 6
-    Pj = cosin * macauley(x, (1.051 - 0.15))         **3 / 6
-    R2z = - macauley(x, 1.051)                                          **3 / 6
-    R3z = - macauley(x, 1.051)                                          **3 / 6
-    C3 = x
-    return R1z, R2z, R3z, C3, Pj, 1     # 1 is for C4
-
-def w_acc(x):
-    R1z = - macauley(x,0.174)                                   ** 2 / 3
-    Pj =  cosin * macauley(x, (1.051 - 0.15))    ** 2 / 3
-    R2z = - macauley(x, 1.051)                                  ** 2 / 3
-    R3z = - macauley(x, 1.051)                                  ** 2 / 3
-    return R1z, R2z, R3z, Pj, 1         # 1 is for C3
-
-def theta(x):
-    R1y = SD * macauley(x, (0.174))
-    R2y = SD * macauley(x, (1.051))
-    R3y = SD * macauley(x, (2.512))
-    Pj =  - (0.5 * Ha * cosin - SC * sinus) * macauley(x, (1.051 - 0.15))
-    return R1y, R2y, R3y, Pj, 1
-
-def mx(x):
-    R1y = SD * macauley(x, (0.174))**0
-    R2y = SD * macauley(x, (1.051))**0
-    R3y = SD * macauley(x, (2.512))**0
-    Pj =  - (0.5 * Ha * cosin - SC * sinus) * macauley(x, (1.051 - 0.15))**0
-    return R1y, R2y, R3y, Pj
 
 
 # -------------------- Boundary conditions -----------------
@@ -114,17 +71,17 @@ matrix = np.zeros((12, 12))
 
 boundary[0][0] = 0 - (6 * 10**(-5) * 1/GJ * SD) + d1 * cosin                   # m, deflection hinge 1, v(x1) + theta(x1)
 
-boundary[1][0] = ((1/EIzz) * -0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
+boundary[1][0] = (-(1/EIzz) * 0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
 
-boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa) - (1/(GJ) * SD * -0.0285 * 1000) + (1/EIzz)*(-1.508*1000 - sinus * macauley(x3, (1.051 + 0.15))**3 * Pa) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
+boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa) - (1/(GJ) * SD * -0.0285 * 1000) + (1/EIzz)*(-1.508*1000 + sinus * macauley(x3, (1.051 + 0.15))**3 * Pa/6) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
                             
 boundary[3][0] = - d1 * sinus                                 # m, w(x1)
 
 boundary[4][0] = 0                                                          # m, w(x2)
 
-boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa)                                      # m, w(x3)
+boundary[5][0] = - d3 * sinus + (1/EIzz)*(cosin * macauley(x3, (1.051 + 0.15))**3 * Pa/6)                                      # m, w(x3)
 
-boundary[6][0] = ((1/EIzz) * -0.0343 * 1000 * sinus) - ((1/GJ) * ((SC * sinus) + (0.5 * Ha * cosin)) * -0.00316159 * 1000)    # m, Pj
+boundary[6][0] = 0    # m, w(pj) = 0
 
 boundary[7][0] = - Pa * (x2 - 0.15) * cosin                                    # Nm, My
 
@@ -132,7 +89,7 @@ boundary[8][0] = Pa * sinus * (x2-0.15) - 3748.8 #- 1036                        
 
 boundary[9][0] = - Pa * (0.5*Ha*cosin - SC*sinus) - 1036                            # Nm, Mx
 
-boundary[10][0] = -Pa * sinus + 2766                                                # Nm, Sy
+boundary[10][0] = -Pa * sinus - 2766                                                # Nm, Sy
 
 boundary[11][0] = Pa * cosin              # Nm, Sz
 
@@ -170,14 +127,10 @@ matrix[5][6] = - (1/EIzz) * (w(x3)[4])
 matrix[5][9] = x3
 matrix[5][10] = 1
 
-matrix[6][0] = ((- (1/EIzz) * (v(x2 - 0.15)[0]))*(sinus)) + ((1/GJ) * theta(x2 - 0.15)[0] * (((SC * sinus) + (0.5 * Ha * cosin))))
 matrix[6][3] = - (1/EIzz) * (w(x2-0.15)[0])
-matrix[6][6] = - np.cos(25/180*np.pi) * (x3 - x2 - 0.5 * xa)**3
-matrix[6][7] = (x2 - 0.15)*sinus
-matrix[6][8] = sinus
-matrix[6][9] = (x2 - 0.15)*cosin
-matrix[6][10] = cosin
-matrix[6][11] = ((SC * sinus) + (0.5 * Ha * cosin))
+matrix[6][6] = - (1/EIzz) * (w(x2-0.15)[4])
+matrix[6][9] = x2-0.15
+matrix[6][10] = 1
 
 matrix[7][3:7] = my(la)
 
@@ -244,7 +197,7 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, y)
+plt.plot(x_list, z)
 plt.show()
 
 print(forces[0] + forces[1] + forces[2] - Pa*sinus + Pj*sinus, "Sum Fy")
