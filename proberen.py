@@ -198,19 +198,19 @@ def theta_left(x):
 boundary = np.zeros((12, 1))
 matrix = np.zeros((12, 12))
 
-boundary[0][0]  = + d1 * cosin + (1/EIzz) * (v_right(x1)[0] + v_right(x1)[1]) + (1/GJ) * (theta_right(x1)[0] + theta_right(x1)[1]) * SD    # m, deflection hinge 1, v(x1) + theta(x1) * SD = d1*cos(theta)
+boundary[0][0]  = + d1 * cosin - (1/EIzz) * (v_right(x1)[0] + v_right(x1)[1]) - (1/GJ) * (theta_right(x1)[0] + theta_right(x1)[1]) * SD    # m, deflection hinge 1, v(x1) + theta(x1) * SD = d1*cos(theta)
 
-boundary[1][0]  = + 0          + (1/EIzz) * (v_right(x2)[0] + v_right(x2)[1]) + (1/GJ) * (theta_right(x2)[0] + theta_right(x2)[1]) * SD    # m, deflection hinge 2, v(x2) + theta(x2) * SD = 0
+boundary[1][0]  = + 0          - (1/EIzz) * (v_right(x2)[0] + v_right(x2)[1]) - (1/GJ) * (theta_right(x2)[0] + theta_right(x2)[1]) * SD    # m, deflection hinge 2, v(x2) + theta(x2) * SD = 0
 
-boundary[2][0]  = + d3 * cosin + (1/EIzz) * (v_right(x3)[0] + v_right(x3)[1]) + (1/GJ) * (theta_right(x3)[0] + theta_right(x3)[1]) * SD    # m, deflection hinge 3, v(x3) + theta(x3) * SD = d3*cos(theta)
+boundary[2][0]  = + d3 * cosin - (1/EIzz) * (v_right(x3)[0] + v_right(x3)[1]) - (1/GJ) * (theta_right(x3)[0] + theta_right(x3)[1]) * SD    # m, deflection hinge 3, v(x3) + theta(x3) * SD = d3*cos(theta)
                             
-boundary[3][0]  = - d1 * sinus + (1/EIzz) * (w_right(x1))                                                                                                   # m, w(x1) = - d1*sin(theta)
+boundary[3][0]  = - d1 * sinus - (1/EIzz) * (w_right(x1))                                                                                                   # m, w(x1) = - d1*sin(theta)
 
-boundary[4][0]  = + 0          + (1/EIzz) * (w_right(x2))                                                                                                   # m, w(x2) =   0
+boundary[4][0]  = + 0          - (1/EIzz) * (w_right(x2))                                                                                                   # m, w(x2) =   0
 
-boundary[5][0]  = - d3 * sinus + (1/EIzz) * (w_right(x3))                                                                                                   # m, w(x3) = - d3*sin(theta)
+boundary[5][0]  = - d3 * sinus - (1/EIzz) * (w_right(x3))                                                                                                   # m, w(x3) = - d3*sin(theta)
 
-boundary[6][0]  = + 0          + (1/EIzz) * ((w_right(x2-0.5*Ha)) + (v_right(x2-0.5*Ha)[0] + v_right(x2-0.5*Ha)[1])*sinus)             + (1/GJ) * (theta_right(x2-0.5*Ha)[0] + theta_right(x2-0.5*Ha)[1]) * (SC * sinus + 0.5 * Ha * cosin)  # m, w(Pj) + theta(Pj) = 0
+boundary[6][0]  = + 0          - (1/EIzz) * ((w_right(x2-0.5*Ha)) + (v_right(x2-0.5*Ha)[0] + v_right(x2-0.5*Ha)[1])*sinus)             - (1/GJ) * (theta_right(x2-0.5*Ha)[0] + theta_right(x2-0.5*Ha)[1]) * (SC * sinus + 0.5 * Ha * cosin)  # m, w(Pj) + theta(Pj) = 0
 
 boundary[7][0]  = my_right()                                                   # Nm, My
 
