@@ -178,7 +178,7 @@ def theta_right(x):
 def mx_left(x = la):
     
     R1y = + SD * (1/1) * macauley(x,x1)          ** 0
-    Pj  = + SD * (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
+    Pj  = + (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
     R2y = + SD * (1/1) * macauley(x,x2)          ** 0
     R3y = + SD * (1/1) * macauley(x,x3)          ** 0
     
@@ -187,7 +187,7 @@ def mx_left(x = la):
 def theta_left(x):
     
     R1y = + SD * (1/1) * macauley(x,x1)          ** 1
-    Pj  = + SD * (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    Pj  = + (0.5 * Ha * cosin - SC * sinus) * (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
     R2y = + SD * (1/1) * macauley(x,x2)          ** 1
     R3y = + SD * (1/1) * macauley(x,x3)          ** 1
     C5  = 1
