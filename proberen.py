@@ -55,32 +55,122 @@ def w_left(x):
     Pj  = + (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
     R2z = - (1/6) * macauley(x,x2)          ** 3
     R3z = - (1/6) * macauley(x,x3)          ** 3
+    C3  = x
+    C4  = 1
         
-    return R1z, R2z, R3z, Pj
+    return R1z, R2z, R3z, Pj, C3, C4
 
 def mz_right(x = la):
     
     Pa_coeff = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
-    q_coeff  = - (1/1)
+    q  = - 3748.8 #q pointing down!
     
-    return Pa_coeff*Pa, q_coeff
+    return Pa_coeff*Pa, q
 
-            
-            
+def v_right(x):
+    
+    Pa_coeff = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    
+    if   x == x1:
         
-
+        q = - 0
+        
+    elif x == (x2 - 0.5*Ha):
+        
+        q = - 17
+        
+    elif x == x2:
+        
+        q = - 34 
+        
+    elif x == x3:
+        
+        q = - 1502.35
+        
+    #- q at the return means q is pointing up (now it is down)
     
+    return Pa_coeff*Pa, q
 
+def mz_left(x = la):
+    
+    R1y = - (1/1) * macauley(x,x1)          ** 1
+    Pj  = - (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    R2y = - (1/1) * macauley(x,x2)          ** 1
+    R3y = - (1/1) * macauley(x,x3)          ** 1
+    
+    return R1y, R2y, R3y, Pj
+
+def v_left(x):
+    
+    R1y = - (1/6) * macauley(x,x1)          ** 3
+    Pj  = - (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
+    R2y = - (1/6) * macauley(x,x2)          ** 3
+    R3y = - (1/6) * macauley(x,x3)          ** 3
+    C1  = x
+    C2  = 1
+    
+    return R1y, R2y, R3y, Pj, C1, C2
+
+def mx_right(x = la):
+    
+    Pa_coeff = - SD * (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 0
+    
+    tau = 30
+    
+    return Pa_coeff*Pa, tau
+
+def theta_right(x):
+    
+    Pa_coeff = - SD * (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    
+    if   x == x1:
+        
+        tau = - 0
+        
+    elif x == (x2 - 0.5*Ha):
+        
+        tau = - 0.9
+        
+    elif x == x2:
+        
+        tau = - 1.4 
+        
+    elif x == x3:
+        
+        tau = - 24.3
+        
+    #- Tau at the return means that tau is defined as from the start. + tau means that it changed
+    
+    return Pa_coeff*Pa, - tau
+
+def mx_left(x = la):
+    
+    R1y = + SD * (1/1) * macauley(x,x1)          ** 0
+    Pj  = + SD * (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
+    R2y = + SD * (1/1) * macauley(x,x2)          ** 0
+    R3y = + SD * (1/1) * macauley(x,x3)          ** 0
+    
+    return R1y, R2y, R3y, Pj
+
+def theta_left(x):
+    
+    R1y = + SD * (1/1) * macauley(x,x1)          ** 1
+    Pj  = + SD * (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    R2y = + SD * (1/1) * macauley(x,x2)          ** 1
+    R3y = + SD * (1/1) * macauley(x,x3)          ** 1
+    C5  = 1
+    
+    return R1y, R2y, R3y, Pj, C5
 
 # -------------------- Boundary conditions -----------------
 boundary = np.zeros((12, 1))
 matrix = np.zeros((12, 12))
 
-boundary[0][0] = 0 - (6 * 10**(-5) * 1/GJ * SD) + d1 * cosin                   # m, deflection hinge 1, v(x1) + theta(x1)
+boundary[0][0] = d1 * cosin + (1/EIzz) * (v_right(x1)[0] + v_right(x1)[1]) + (1/GJ) * (theta_right(x1)[0] + theta_right(x1)[1]) * SD                  # m, deflection hinge 1, v(x1) + theta(x1)
 
-boundary[1][0] = (-(1/EIzz) * 0.0343 * 1000) - ((1/GJ) * SD * -0.00452 * 1000)                                                               # m, deflection hinge 2, v(x2) + theta(x2)
+boundary[1][0] = 0          + (1/EIzz) * (v_right(x2)[0] + v_right(x2)[1]) + (1/GJ) * (theta_right(x2)[0] + theta_right(x2)[1]) * SD                                                               # m, deflection hinge 2, v(x2) + theta(x2)
 
-boundary[2][0] = (- 1/(GJ) * (0.5 * Ha * cosin - SC * sinus) * macauley(x3, (1.051 + 0.15)) * Pa) - (1/(GJ) * SD * -0.0285 * 1000) + (1/EIzz)*(-1.508*1000 + sinus * macauley(x3, (1.051 + 0.15))**3 * Pa/6) + d3 * cosin    # m, deflection hinge 3, v(x3) + theta(x3)
+boundary[2][0] = d3 * cosin + (1/EIzz) * (v_right(x3)[0] + v_right(x3)[1]) + (1/GJ) * (theta_right(x3)[0] + theta_right(x3)[1]) * SD    # m, deflection hinge 3, v(x3) + theta(x3)
                             
 boundary[3][0] = - d1 * sinus                                 # m, w(x1)
 
@@ -103,22 +193,22 @@ boundary[11][0] = Pa * cosin              # Nm, Sz
 
 # -------------------- The Matrix -----------------------
 
-matrix[0][7] = x1
-matrix[0][8] = 1
-matrix[0][11] = 1 * SD
+matrix[0][7]  = v_left(x1)[4]
+matrix[0][8]  = v_left(x1)[5]
+matrix[0][11] = theta_left(x1)[4] * SD
 
-matrix[1][0] = (- (1/EIzz) * (v(x2)[0])) + ((1/GJ) * theta(x2)[0])
-matrix[1][6] = (- (1/EIzz) * (v(x2)[3])) + ((1/GJ) * theta(x2)[3])
-matrix[1][7] = x2
-matrix[1][8] = 1
-matrix[1][11] = SD
+matrix[1][0]  = -(1/EIzz) * (v_left(x2)[0]) + ((1/GJ) * theta_left(x2)[0])
+matrix[1][6]  = -(1/EIzz) * (v_left(x2)[3]) + ((1/GJ) * theta_left(x2)[3])
+matrix[1][7]  = v_left(x2)[4]
+matrix[1][8]  = v_left(x2)[5]
+matrix[1][11] = theta_left(x2)[4] * SD
 
-matrix[2][0] = - (1/EIzz) * (v(x3)[0]) + (1/GJ) * theta(x3)[0]
-matrix[2][1] = - (1/EIzz) * (v(x3)[1]) + (1/GJ) * theta(x3)[1]
-matrix[2][6] = - (1/EIzz) * (v(x3)[3]) + (1/GJ) * theta(x3)[3]
-matrix[2][7] = x3
-matrix[2][8] = 1
-matrix[2][11] = SD
+matrix[2][0]  = -(1/EIzz) * (v_left(x3)[0]) + ((1/GJ) * theta_left(x3)[0])
+matrix[2][1]  = -(1/EIzz) * (v_left(x3)[1]) + ((1/GJ) * theta_left(x3)[1])
+matrix[2][6]  = -(1/EIzz) * (v_left(x3)[3]) + ((1/GJ) * theta_left(x3)[3])
+matrix[2][7]  = v_left(x3)[4]
+matrix[2][8]  = v_left(x3)[5]
+matrix[2][11] = theta_left(x3)[4] * SD
 
 matrix[3][9]  = x1
 matrix[3][10] = 1
