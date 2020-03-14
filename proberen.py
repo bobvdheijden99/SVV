@@ -48,29 +48,29 @@ def w_right(x):
 
 def sz_left(x = la):
 
-    R1z = - (1/1) * macauley(x,x1)          ** 0
-    Pj  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
-    R2z = - (1/1) * macauley(x,x2)          ** 0
-    R3z = - (1/1) * macauley(x,x3)          ** 0
+    R1z = - (1/1) *         macauley(x,x1)          ** 0
+    Pj  = + (1/1) * cosin * macauley(x,x2 - 0.5*Ha) ** 0
+    R2z = - (1/1) *         macauley(x,x2)          ** 0
+    R3z = - (1/1) *         macauley(x,x3)          ** 0
         
     return R1z, R2z, R3z, Pj
 
 def my_left(x = la):
 
-    R1z = - (1/1) * macauley(x,x1)          ** 1
-    Pj  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
-    R2z = - (1/1) * macauley(x,x2)          ** 1
-    R3z = - (1/1) * macauley(x,x3)          ** 1
+    R1z = - (1/1) *         macauley(x,x1)                ** 1
+    Pj  = + (1/1) * cosin * macauley(x,x2 - 0.5*Ha)       ** 1
+    R2z = - (1/1) *         macauley(x,x2)                ** 1
+    R3z = - (1/1) *         macauley(x,x3)                ** 1
         
     return R1z, R2z, R3z, Pj
 
 
 def w_left(x):
 
-    R1z = - (1/6) * macauley(x,x1)          ** 3
-    Pj  = + (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
-    R2z = - (1/6) * macauley(x,x2)          ** 3
-    R3z = - (1/6) * macauley(x,x3)          ** 3
+    R1z = - (1/6) *         macauley(x,x1)                ** 3
+    Pj  = + (1/6) * cosin * macauley(x,x2 - 0.5*Ha)       ** 3
+    R2z = - (1/6) *         macauley(x,x2)                ** 3
+    R3z = - (1/6) *         macauley(x,x3)                ** 3
     C3  = x
     C4  = 1
         
@@ -92,7 +92,7 @@ def mz_right(x = la):
 
 def v_right(x):
     
-    Pa_coeff = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    Pa_coeff = - (1/1) * sinus * macauley(x,(x2+0.5*Ha)) ** 3
     
     if   x == x1:
         
@@ -116,28 +116,28 @@ def v_right(x):
 
 def sy_left(x = la):
     
-    R1y = - (1/1) * macauley(x,x1)          ** 0
-    Pj  = - (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
-    R2y = - (1/1) * macauley(x,x2)          ** 0
-    R3y = - (1/1) * macauley(x,x3)          ** 0
+    R1y = - (1/1) *         macauley(x,x1)                ** 0
+    Pj  = - (1/1) * sinus * macauley(x,x2 - 0.5*Ha)       ** 0
+    R2y = - (1/1) *         macauley(x,x2)                ** 0
+    R3y = - (1/1) *         macauley(x,x3)                ** 0
     
     return R1y, R2y, R3y, Pj
 
 def mz_left(x = la):
     
-    R1y = - (1/1) * macauley(x,x1)          ** 1
-    Pj  = - (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
-    R2y = - (1/1) * macauley(x,x2)          ** 1
-    R3y = - (1/1) * macauley(x,x3)          ** 1
+    R1y = - (1/1) *         macauley(x,x1)          ** 1
+    Pj  = - (1/1) * sinus * macauley(x,x2 - 0.5*Ha) ** 1
+    R2y = - (1/1) *         macauley(x,x2)          ** 1
+    R3y = - (1/1) *         macauley(x,x3)          ** 1
     
     return R1y, R2y, R3y, Pj
 
 def v_left(x):
     
-    R1y = - (1/6) * macauley(x,x1)          ** 3
-    Pj  = - (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
-    R2y = - (1/6) * macauley(x,x2)          ** 3
-    R3y = - (1/6) * macauley(x,x3)          ** 3
+    R1y = - (1/6) *         macauley(x,x1)                ** 3
+    Pj  = - (1/6) * sinus * macauley(x,x2 - 0.5*Ha)       ** 3
+    R2y = - (1/6) *         macauley(x,x2)                ** 3
+    R3y = - (1/6) *         macauley(x,x3)                ** 3
     C1  = x
     C2  = 1
     
@@ -145,7 +145,7 @@ def v_left(x):
 
 def mx_right(x = la):
     
-    Pa_coeff = - SD * (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 0
+    Pa_coeff = - (1/1) * (0.5 * Ha * cosin - SC * sinus) * macauley(x,(x2+0.5*Ha)) ** 0
     
     tau = 30
     
@@ -153,7 +153,7 @@ def mx_right(x = la):
 
 def theta_right(x):
     
-    Pa_coeff = - SD * (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
+    Pa_coeff = - (1/1) * (0.5 * Ha * cosin - SC * sinus) * macauley(x,(x2+0.5*Ha)) ** 1
     
     if   x == x1:
         
@@ -178,7 +178,7 @@ def theta_right(x):
 def mx_left(x = la):
     
     R1y = + SD * (1/1) * macauley(x,x1)          ** 0
-    Pj  = + SD * (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
+    Pj  = -      (1/1) * (0.5 * Ha * cosin - SC * sinus) * macauley(x,x2 - 0.5*Ha) ** 0
     R2y = + SD * (1/1) * macauley(x,x2)          ** 0
     R3y = + SD * (1/1) * macauley(x,x3)          ** 0
     
@@ -187,7 +187,7 @@ def mx_left(x = la):
 def theta_left(x):
     
     R1y = + SD * (1/1) * macauley(x,x1)          ** 1
-    Pj  = + SD * (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    Pj  = -      (1/1) * (0.5 * Ha * cosin - SC * sinus) * macauley(x,x2 - 0.5*Ha) ** 1
     R2y = + SD * (1/1) * macauley(x,x2)          ** 1
     R3y = + SD * (1/1) * macauley(x,x3)          ** 1
     C5  = 1
@@ -198,12 +198,13 @@ def theta_left(x):
 boundary = np.zeros((12, 1))
 matrix = np.zeros((12, 12))
 
-boundary[0][0]  = + d1 * cosin + (1/EIzz) * (v_right(x1)[0] + v_right(x1)[1]) + (1/GJ) * (theta_right(x1)[0] + theta_right(x1)[1]) * SD    # m, deflection hinge 1, v(x1) + theta(x1) * SD = d1*cos(theta)
+boundary[0][0]  = + d1 * cosin - (1/EIzz) * (v_right(x1)[0] + v_right(x1)[1]) - (1/GJ) * (theta_right(x1)[0] + theta_right(x1)[1]) * SD    # m, deflection hinge 1, v(x1) + theta(x1) * SD = d1*cos(theta)
 
-boundary[1][0]  = + 0          + (1/EIzz) * (v_right(x2)[0] + v_right(x2)[1]) + (1/GJ) * (theta_right(x2)[0] + theta_right(x2)[1]) * SD    # m, deflection hinge 2, v(x2) + theta(x2) * SD = 0
+boundary[1][0]  = + 0          - (1/EIzz) * (v_right(x2)[0] + v_right(x2)[1]) - (1/GJ) * (theta_right(x2)[0] + theta_right(x2)[1]) * SD    # m, deflection hinge 2, v(x2) + theta(x2) * SD = 0
 
-boundary[2][0]  = + d3 * cosin + (1/EIzz) * (v_right(x3)[0] + v_right(x3)[1]) + (1/GJ) * (theta_right(x3)[0] + theta_right(x3)[1]) * SD    # m, deflection hinge 3, v(x3) + theta(x3) * SD = d3*cos(theta)
+boundary[2][0]  = + d3 * cosin - (1/EIzz) * (v_right(x3)[0] + v_right(x3)[1]) - (1/GJ) * (theta_right(x3)[0] + theta_right(x3)[1]) * SD    # m, deflection hinge 3, v(x3) + theta(x3) * SD = d3*cos(theta)
                             
+<<<<<<< Updated upstream
 boundary[3][0]  = - d1 * sinus + (1/EIzz) * (w_right(x1))                                                                               # m, w(x1) = - d1*sin(theta)
 
 boundary[4][0]  = + 0          + (1/EIzz) * (w_right(x2))                                                                               # m, w(x2) =   0
@@ -211,6 +212,15 @@ boundary[4][0]  = + 0          + (1/EIzz) * (w_right(x2))                       
 boundary[5][0]  = - d3 * sinus + (1/EIzz) * (w_right(x3))                                                                               # m, w(x3) = - d3*sin(theta)
 
 boundary[6][0]  = + 0          + (1/EIzz) * (w_right(x2-0.5*Ha))                                                                        # m, w(Pj) =   0
+=======
+boundary[3][0]  = - d1 * sinus - (1/EIzz) * (w_right(x1))                                                                                                   # m, w(x1) = - d1*sin(theta)
+
+boundary[4][0]  = + 0          - (1/EIzz) * (w_right(x2))                                                                                                   # m, w(x2) =   0
+
+boundary[5][0]  = - d3 * sinus - (1/EIzz) * (w_right(x3))                                                                                                   # m, w(x3) = - d3*sin(theta)
+
+boundary[6][0]  = + 0          - (1/EIzz) * ((w_right(x2-0.5*Ha)) + (v_right(x2-0.5*Ha)[0] + v_right(x2-0.5*Ha)[1])*sinus)             - (1/GJ) * (theta_right(x2-0.5*Ha)[0] + theta_right(x2-0.5*Ha)[1]) * (SC * sinus + 0.5 * Ha * cosin)  # m, w(Pj) + theta(Pj) = 0
+>>>>>>> Stashed changes
 
 boundary[7][0]  = my_right()                                                   # Nm, My
 
@@ -287,7 +297,11 @@ matrix[10][6]   = sy_left()[3]
 
 matrix[11][3:7] = sz_left()
 
+<<<<<<< Updated upstream
 forces = lin.lstsq(matrix,boundary)[0]
+=======
+forces = lin.solve(matrix, boundary)
+>>>>>>> Stashed changes
 
 R1y = forces[0][0]
 R2y = forces[1][0]
@@ -305,7 +319,7 @@ C5 = forces[11][0]
 def mz(x = la):
 
     R1z_coeff = - (1/1) * macauley(x,x1)          ** 1
-    Pj_coeff  = + (1/1) * macauley(x,x2 - 0.5*Ha) ** 1
+    Pj_coeff  = + (1/1) * cosin * macauley(x,x2 - 0.5*Ha) ** 1
     R2z_coeff = - (1/1) * macauley(x,x2)          ** 1
     R3z_coeff = - (1/1) * macauley(x,x3)          ** 1
     Pa_coeff  = - (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 1
@@ -315,7 +329,7 @@ def mz(x = la):
 def sy(x = la):
 
     R1_coeff = - (1/1) * macauley(x,x1)          ** 0
-    Pj_coeff  = - (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
+    Pj_coeff  = - (1/1) * cosin * macauley(x,x2 - 0.5*Ha) ** 0
     R2_coeff = - (1/1) * macauley(x,x2)          ** 0
     R3_coeff = - (1/1) * macauley(x,x3)          ** 0
     Pa_coeff  = + (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 0
