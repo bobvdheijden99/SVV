@@ -133,10 +133,10 @@ def int_tau(value):
                 storage.append(total)
             integration = storage
         name = "Integration nr" + str(j + 1)
-    #     plt.plot(x_fine, integration, label=name)
-    #     plt.pause(0.05)
+        plt.plot(x_fine, integration, label=name)
+        plt.pause(0.05)
 
-    # plt.legend()
-    # plt.show()
+    plt.legend()
+    plt.show()
 
     print("The integration for tau is ", integration[-1])

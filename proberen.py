@@ -1,6 +1,6 @@
 import numpy as np
 from integration import int_w
-from scipy import linalg as lin
+from numpy import linalg as lin
 from matplotlib import pyplot as plt
 import scipy.io
 
@@ -204,13 +204,13 @@ boundary[1][0]  = + 0          + (1/EIzz) * (v_right(x2)[0] + v_right(x2)[1]) + 
 
 boundary[2][0]  = + d3 * cosin + (1/EIzz) * (v_right(x3)[0] + v_right(x3)[1]) + (1/GJ) * (theta_right(x3)[0] + theta_right(x3)[1]) * SD    # m, deflection hinge 3, v(x3) + theta(x3) * SD = d3*cos(theta)
                             
-boundary[3][0]  = - d1 * sinus + (1/EIzz) * (w_right(x1))                                                                               # m, w(x1) = - d1*sin(theta)
+boundary[3][0]  = - d1 * sinus + (1/EIzz) * (w_right(x1))                                                                                                   # m, w(x1) = - d1*sin(theta)
 
-boundary[4][0]  = + 0          + (1/EIzz) * (w_right(x2))                                                                               # m, w(x2) =   0
+boundary[4][0]  = + 0          + (1/EIzz) * (w_right(x2))                                                                                                   # m, w(x2) =   0
 
-boundary[5][0]  = - d3 * sinus + (1/EIzz) * (w_right(x3))                                                                               # m, w(x3) = - d3*sin(theta)
+boundary[5][0]  = - d3 * sinus + (1/EIzz) * (w_right(x3))                                                                                                   # m, w(x3) = - d3*sin(theta)
 
-boundary[6][0]  = + 0          + (1/EIzz) * (w_right(x2-0.5*Ha))                                                                        # m, w(Pj) =   0
+boundary[6][0]  = + 0          + (1/EIzz) * ((w_right(x2-0.5*Ha)) + (v_right(x2-0.5*Ha)[0] + v_right(x2-0.5*Ha)[1])*sinus)             + (1/GJ) * (theta_right(x2-0.5*Ha)[0] + theta_right(x2-0.5*Ha)[1]) * (SC * sinus + 0.5 * Ha * cosin)  # m, w(Pj) + theta(Pj) = 0
 
 boundary[7][0]  = my_right()                                                   # Nm, My
 
@@ -267,12 +267,18 @@ matrix[5][6]  = -(1/EIzz) * (w_left(x3)[3])
 matrix[5][9]  = w_left(x3)[4]
 matrix[5][10] = w_left(x3)[5]
 
+matrix[6][0]  = -(1/EIzz) * ((v_left(x2-0.5*Ha)[0]) + ((1/GJ) * theta_left(x2-0.5*Ha)[0]))*sinus
+matrix[6][1]  = -(1/EIzz) * ((v_left(x2-0.5*Ha)[1]) + ((1/GJ) * theta_left(x2-0.5*Ha)[1]))*sinus
+matrix[6][2]  = -(1/EIzz) * ((v_left(x2-0.5*Ha)[2]) + ((1/GJ) * theta_left(x2-0.5*Ha)[2]))*sinus
 matrix[6][3]  = -(1/EIzz) * (w_left(x2-0.5*Ha)[0])
 matrix[6][4]  = -(1/EIzz) * (w_left(x2-0.5*Ha)[1])
 matrix[6][5]  = -(1/EIzz) * (w_left(x2-0.5*Ha)[2])
 matrix[6][6]  = -(1/EIzz) * (w_left(x2-0.5*Ha)[3])
+matrix[2][7]  = v_left(x3)[4]*sinus
+matrix[2][8]  = v_left(x3)[5]*sinus
 matrix[6][9]  = w_left(x2-0.5*Ha)[4]
 matrix[6][10] = w_left(x2-0.5*Ha)[5]
+matrix[6][11] = theta_left(x2-0.5*Ha)[4] * 0.5 * Ha
 
 matrix[7][3:7] = my_left()[0:4]
 
@@ -287,7 +293,8 @@ matrix[10][6]   = sy_left()[3]
 
 matrix[11][3:7] = sz_left()
 
-forces = lin.lstsq(matrix,boundary)[0]
+forces = lin.solve(matrix, boundary)
+#forces = lin.lstsq(matrix,boundary)[0]
 
 R1y = forces[0][0]
 R2y = forces[1][0]
@@ -361,7 +368,8 @@ for i in range(0, len(integrated)):
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
 
-plt.plot(x_list, z)
+plt.plot(x_list, y)
 plt.show()
 
 print(forces[0] + forces[1] + forces[2] - Pa*sinus + Pj*sinus, "Sum Fy")
+print(forces[3] + forces[4] + forces[5] + Pa*cosin - Pj*cosin, "Sum Fz")
