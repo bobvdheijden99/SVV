@@ -374,5 +374,5 @@ for i in range(0, len(integrated)):
 plt.plot(x_list, y)
 plt.show()
 
-print(forces[0] + forces[1] + forces[2] - Pa*sinus + Pj*sinus, "Sum Fy")
+print(forces[0] + forces[1] + forces[2] - Pa*sinus + Pj*sinus - 2765.7, "Sum Fy")
 print(forces[3] + forces[4] + forces[5] + Pa*cosin - Pj*cosin, "Sum Fz")
