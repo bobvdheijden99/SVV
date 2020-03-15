@@ -124,8 +124,8 @@ def int_tau(value):
             for i in range(0, len(mesh_fine) - 1):
                 total += (x_fine[i + 1] - x_fine[i]) * (mesh_fine[i + 1] + mesh_fine[i]) * 0.5
                 integration.append(total)
-            plt.plot(x_fine, mesh_fine, label="original")
-            plt.pause(0.05)
+            # plt.plot(x_fine, mesh_fine, label="original")
+            # plt.pause(0.05)
 
         else:
             for i in range(0, len(integration) - 1):
@@ -133,10 +133,12 @@ def int_tau(value):
                 storage.append(total)
             integration = storage
         name = "Integration nr" + str(j + 1)
-        plt.plot(x_fine, integration, label=name)
-        plt.pause(0.05)
+    #     plt.plot(x_fine, integration, label=name)
+    #     plt.pause(0.05)
 
-    plt.legend()
-    plt.show()
+    # plt.legend()
+    # plt.show()
 
-    print("The integration for tau is ", integration[-1])
+    # print("The integration for tau is ", integration[-1])
+    
+    return integration, x_fine

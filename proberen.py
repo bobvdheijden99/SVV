@@ -278,7 +278,7 @@ matrix[6][7]  = v_left(x2-0.5*Ha)[4]*sinus
 matrix[6][8]  = v_left(x2-0.5*Ha)[5]*sinus
 matrix[6][9]  = w_left(x2-0.5*Ha)[4]
 matrix[6][10] = w_left(x2-0.5*Ha)[5]
-matrix[6][11] = theta_left(x2-0.5*Ha)[4] * 0.5 * Ha
+matrix[6][11] = theta_left(x2-0.5*Ha)[4] * (SC * sinus + 0.5 * Ha * cosin)
 
 matrix[7][3:7] = my_left()[0:4]
 
@@ -286,7 +286,7 @@ matrix[8][0:3] = mz_left()[0:3]
 matrix[8][6]   = mz_left()[3]
 
 matrix[9][0:3] = mx_left()[0:3] 
-matrix[9][6]   = mx_left(la)[3]
+matrix[9][6]   = mx_left()[3]
 
 matrix[10][0:3] = sy_left()[0:3]
 matrix[10][6]   = sy_left()[3]
@@ -311,32 +311,32 @@ C5 = forces[11][0]
 
 def mz(x = la):
 
-    R1y_coeff = - (1/6) * macauley(x,x1)          ** 3
-    Pj_coeff  = - (1/6) * macauley(x,x2 - 0.5*Ha) ** 3
-    R2y_coeff = - (1/6) * macauley(x,x2)          ** 3
-    R3y_coeff = - (1/6) * macauley(x,x3)          ** 3
-    Pa_coeff  = + (1/6) * sinus * macauley(x,(x2+0.5*Ha)) ** 3
+    R1y_coeff = - (1/1) * macauley(x,x1)          ** 1
+    Pj_coeff  = - (1/1) * sinus * macauley(x,x2 - 0.5*Ha) ** 1
+    R2y_coeff = - (1/1) * macauley(x,x2)          ** 1
+    R3y_coeff = - (1/1) * macauley(x,x3)          ** 1
+    Pa_coeff  = + (1/1) * sinus * macauley(x,(x2+0.5*Ha)) ** 1
         
-    return R1y_coeff*R1y + R2y_coeff*R2y + R3y_coeff*R3y + Pj_coeff*Pj + Pa_coeff*Pa
+    return R1y_coeff*R1y + R2y_coeff*R2y + R3y_coeff*R3y + Pj_coeff*Pj + Pa_coeff*Pa + 3748.8
 
 def sy(x = la):
 
     R1_coeff = - (1/1) * macauley(x,x1)          ** 0
-    Pj_coeff  = - (1/1) * macauley(x,x2 - 0.5*Ha) ** 0
+    Pj_coeff  = - (1/1) * sinus * macauley(x,x2 - 0.5*Ha) ** 0
     R2_coeff = - (1/1) * macauley(x,x2)          ** 0
     R3_coeff = - (1/1) * macauley(x,x3)          ** 0
-    Pa_coeff  = + (1/1) * cosin * macauley(x,(x2+0.5*Ha)) ** 0
+    Pa_coeff  = + (1/1) * sinus * macauley(x,(x2+0.5*Ha)) ** 0
         
-    return R1_coeff*R1y + R2_coeff*R2y + R3_coeff*R3y + Pj_coeff*Pj + Pa_coeff*Pa 
+    return R1_coeff*R1y + R2_coeff*R2y + R3_coeff*R3y + Pj_coeff*Pj + Pa_coeff*Pa + 2765.7 
 
 
-# def workingtheta(x,inte):
+def workingtheta(x,inte):
     
-#         theta = 1/GJ * (R1y * macauley(x, x1) + R2y * macauley(x, x2) + R3y * macauley(x, x3)) * SD + \
-#                         1/GJ * ( -Pj * macauley(x, (x2 - 0.5 * xa)) * (0.5 * Ha * cosin - SC * sinus) \
-#                         + Pa * macauley(x, (x2 + 0.5 * xa)) * (0.5 * Ha * cosin - SC * sinus) + inte) + C5
+        theta = 1/GJ * (R1y * macauley(x, x1) + R2y * macauley(x, x2) + R3y * macauley(x, x3)) * SD + \
+                        1/GJ * ( -Pj * macauley(x, (x2 - 0.5 * xa)) * (0.5 * Ha * cosin - SC * sinus) \
+                        + Pa * macauley(x, (x2 + 0.5 * xa)) * (0.5 * Ha * cosin - SC * sinus) + inte) + C5
                             
-#         return theta
+        return theta
 
 def workingv(x, inte):
 
@@ -356,7 +356,9 @@ def workingw(x):
     return w
 
 integrated = int_w(4)[0]
+integratet = int_tau(2)[0]
 x_list = int_w(4)[1]
+x_tau_list = int_tau(4)[1]
 y = []
 z = []
 theta = []
@@ -365,8 +367,8 @@ theta = []
 for i in range(0, len(integrated)):
     y.append(workingv(x_list[i], integrated[i]))
     
-# for i in range(0, len(integrated)):
-#     theta.append(workingtheta(x_list[i], integrated[i]))
+for i in range(0, len(integrated)):
+    theta.append(workingtheta(x_tau_list[i], integratet[i]))
 
 for i in range(0, len(integrated)):
     z.append(workingw(x_list[i]))
