@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import scipy.io
 
 EIzz = 73.1*10**9 * 1.42546*10**(-5)
-EIyy = 73.1*10**9 * 5.377416*10**(-5)
+EIyy = 73.1*10**9 * 5.56628*10**(-6)
 GJ = 28*10**9 * 1.91*10**(-5)
 x1 = 0.174
 x2 = 1.051
